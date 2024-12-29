@@ -1,5 +1,6 @@
 <?php
 
+// database/migrations/YYYY_MM_DD_create_books_table.php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,15 +12,13 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->unsignedBigInteger('author_id');
+            $table->foreignId('author_id')->constrained()->onDelete('cascade'); // Assumindo que cada livro tem um autor
             $table->string('genre');
             $table->string('language');
             $table->string('isbn')->unique();
             $table->year('publication_year');
-            $table->text('observations')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
-
-            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
         });
     }
 
